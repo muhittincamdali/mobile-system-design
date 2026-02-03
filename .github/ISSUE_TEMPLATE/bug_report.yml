@@ -1,0 +1,61 @@
+name: Bug Report
+description: Report errors, incorrect info, or broken diagrams
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Help us maintain accurate system design content!
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What issue did you find?
+      placeholder: Describe the problem...
+    validations:
+      required: true
+
+  - type: textarea
+    id: location
+    attributes:
+      label: Location
+      description: Where is the issue?
+      placeholder: |
+        - Case Study: Social Media Feed
+        - Section: Data Flow
+        - Diagram: Architecture Overview
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Issue Type
+      options:
+        - Incorrect Architecture
+        - Broken Diagram
+        - Outdated Information
+        - Missing Consideration
+        - Typo/Grammar
+        - Broken Link
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested Fix
+      description: How should this be corrected?
+      placeholder: The correct approach is...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues
+          required: true
