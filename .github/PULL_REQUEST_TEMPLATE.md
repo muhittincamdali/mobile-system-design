@@ -1,35 +1,47 @@
 ## Description
 
-<!-- What system design content does this PR add or change? -->
+<!-- Describe your changes in detail -->
+
+## Related Issue
+
+<!-- Please link to the issue here using #issue_number -->
+
+Fixes #
 
 ## Type of Change
 
-- [ ] New case study
-- [ ] Architecture pattern
-- [ ] Diagram addition/update
-- [ ] Bug fix (incorrect info)
-- [ ] Content improvement
-- [ ] Other
+<!-- Put an `x` in all the boxes that apply -->
 
-## Case Study Details (if applicable)
-
-- System: 
-- Scale: 
-- Key Components: 
+- [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
+- [ ] ✨ New feature (non-breaking change which adds functionality)
+- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] 🧭 New navigation pattern
+- [ ] 📝 Documentation update
+- [ ] 🔧 Refactoring (no functional changes)
 
 ## Checklist
 
-- [ ] Requirements clearly stated
-- [ ] Architecture diagram included
-- [ ] Trade-offs discussed
-- [ ] Scalability addressed
-- [ ] Security considerations included
-- [ ] Follows the template
+<!-- Put an `x` in all the boxes that apply -->
 
-## Related Issues
+- [ ] My code follows the project's style guidelines
+- [ ] I have performed a self-review of my own code
+- [ ] I have tested navigation flows thoroughly
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
 
-<!-- Fixes #123 -->
+## Navigation Scenarios Tested
 
-## Diagrams
+<!-- Put an `x` in all the boxes that apply -->
 
-<!-- Include any new diagrams or updates -->
+- [ ] Push/Pop navigation
+- [ ] Modal presentation
+- [ ] Tab switching
+- [ ] Deep link handling
+- [ ] Back navigation
+- [ ] State restoration
+
+## Additional Notes
+
+<!-- Add any additional notes for reviewers -->
