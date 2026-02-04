@@ -403,3 +403,47 @@ MIT License
    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=muhittincamdali/mobile-system-design&type=Date" />
  </picture>
 </a>
+
+---
+
+## 🚀 How to Use This Repository
+
+1. **Study the Patterns** - Each section covers a system design topic
+2. **Practice Problems** - Work through the examples
+3. **Interview Prep** - Use for mobile system design interviews
+
+## 📊 Quick Reference
+
+| Topic | Difficulty | Time to Study |
+|-------|------------|---------------|
+| Caching | Medium | 2-3 hours |
+| Networking | Medium | 3-4 hours |
+| State Management | Hard | 4-5 hours |
+| Offline First | Hard | 5-6 hours |
+
+## 📚 Study Path
+
+```
+Week 1: Networking & Caching
+Week 2: State Management
+Week 3: Offline First & Sync
+Week 4: Performance & Testing
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
+
+MIT License - see [LICENSE](LICENSE).
+
+---
+
+<div align="center">
+
+**Created with ❤️ by [Muhittin Camdali](https://github.com/muhittincamdali)**
+
+If you find this useful, please ⭐ this repository!
+
+</div>
