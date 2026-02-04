@@ -9,24 +9,26 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/stars/muhittincamdali/mobile-system-design?style=flat-square" alt="Stars"/>
-  <img src="https://img.shields.io/badge/case_studies-10+-blue?style=flat-square" alt="Case Studies"/>
+  <img src="https://img.shields.io/github/stars/muhittincamdali/mobile-system-design?style=for-the-badge&logo=github&color=gold" alt="Stars"/>
+  <img src="https://img.shields.io/badge/Case_Studies-10+-blue?style=for-the-badge" alt="Case Studies"/>
+  <img src="https://img.shields.io/badge/Patterns-15+-green?style=for-the-badge" alt="Patterns"/>
+  <img src="https://img.shields.io/badge/License-MIT-brightgreen?style=for-the-badge" alt="License"/>
+  <img src="https://img.shields.io/github/last-commit/muhittincamdali/mobile-system-design?style=for-the-badge" alt="Last Commit"/>
 </p>
 
 ---
 
-## Contents
+## ✨ Features
 
-- [Fundamentals](#fundamentals)
-- [Case Studies](#case-studies)
-  - [Instagram Feed](#instagram-feed)
-  - [Uber](#uber)
-  - [WhatsApp](#whatsapp)
-  - [YouTube](#youtube)
-  - [E-Commerce App](#e-commerce)
-- [Common Patterns](#common-patterns)
-- [Interview Tips](#interview-tips)
+- 📱 **Real-World Case Studies** - Instagram, Uber, WhatsApp, YouTube
+- 🏗️ **Architecture Patterns** - MVC, MVVM, Clean Architecture, TCA
+- 🔄 **Common Patterns** - Caching, Networking, State Management
+- 💡 **Interview Ready** - Perfect for mobile system design interviews
+- 📚 **Well Documented** - Clear explanations with diagrams
 
+---
+
+## 📋 Table of Contents
 ---
 
 ## Fundamentals
