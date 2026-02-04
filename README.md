@@ -391,3 +391,15 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## License
 
 MIT License
+
+---
+
+## 📈 Star History
+
+<a href="https://star-history.com/#muhittincamdali/mobile-system-design&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=muhittincamdali/mobile-system-design&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=muhittincamdali/mobile-system-design&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=muhittincamdali/mobile-system-design&type=Date" />
+ </picture>
+</a>
