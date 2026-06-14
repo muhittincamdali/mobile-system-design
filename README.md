@@ -57,7 +57,10 @@ System design in 2026 has moved beyond "glue-code" architecture. We now leverage
 
 ## Fundamentals
 
-### Mobile System Design Framework
+### Mobile System Design
+
+## 🚀 Killer Feature: Blueprint Generator CLI
+Preparing for a FAANG interview? Use the `blueprint_generator.py` to instantly scaffold complex System Design diagrams (Mermaid.js) and Markdown templates for architectures like 'Offline-First Chat' or 'Global E-Commerce'. Framework
 
 ```
 1. REQUIREMENTS (5 min)
