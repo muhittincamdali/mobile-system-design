@@ -282,6 +282,20 @@ struct FileOutboxStoreTests {
         }
     }
 
+    @Test("reads a file exactly at the size limit")
+    func exactlyAtLimit() async throws {
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("exact.json")
+        let writer = FileOutboxStore<LikeChange>(fileURL: url)
+        try writer.save(OutboxSnapshot())
+        let size = try Data(contentsOf: url).count
+        #expect(try FileOutboxStore<LikeChange>(fileURL: url, maximumFileSize: size).load().pending.isEmpty)
+        #expect(throws: OutboxError.storeTooLarge) {
+            try FileOutboxStore<LikeChange>(fileURL: url, maximumFileSize: size - 1).load()
+        }
+        #expect(try FileOutboxStore<LikeChange>(fileURL: url, maximumFileSize: .max).load().pending.isEmpty)
+    }
+
     @Test("refuses to write more than the size limit")
     func writeLimit() throws {
         let store = FileOutboxStore<LikeChange>(fileURL: directory.appendingPathComponent("small.json"), maximumFileSize: 10)

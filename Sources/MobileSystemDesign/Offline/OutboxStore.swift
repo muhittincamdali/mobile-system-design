@@ -65,16 +65,17 @@ public struct FileOutboxStore<Payload: Codable & Sendable>: OutboxStore {
     }
 
     public func load() throws -> OutboxSnapshot<Payload> {
-        let attributes: [FileAttributeKey: Any]
+        let handle: FileHandle
         do {
-            attributes = try FileManager.default.attributesOfItem(atPath: fileURL.path)
+            handle = try FileHandle(forReadingFrom: fileURL)
         } catch CocoaError.fileReadNoSuchFile, CocoaError.fileNoSuchFile {
             return OutboxSnapshot()
         }
-        if let size = attributes[.size] as? NSNumber, size.int64Value > Int64(maximumFileSize) {
-            throw OutboxError.storeTooLarge
-        }
-        let data = try Data(contentsOf: fileURL)
+        defer { try? handle.close() }
+        // Read at most one byte past the limit, so a large file is never read into memory whole,
+        // even if it grew after a size check.
+        let readLimit = maximumFileSize == .max ? maximumFileSize : maximumFileSize + 1
+        let data = try handle.read(upToCount: readLimit) ?? Data()
         guard data.count <= maximumFileSize else { throw OutboxError.storeTooLarge }
         return try JSONDecoder().decode(OutboxSnapshot<Payload>.self, from: data)
     }
