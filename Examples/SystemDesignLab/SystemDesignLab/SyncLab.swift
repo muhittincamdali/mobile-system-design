@@ -75,8 +75,7 @@ final class SyncModel {
 
     private func receive(_ remote: LWWRegister<String>, into replica: inout Replica) {
         do {
-            _ = try replica.clock.receive(remote.timestamp, physicalTime: wallClock.addingTimeInterval(replica.clockSkew))
-            if replica.title.merge(remote) {
+            if try replica.title.merge(remote, using: &replica.clock, physicalTime: wallClock.addingTimeInterval(replica.clockSkew)) {
                 replica.draft = replica.title.value
             }
         } catch HybridLogicalClock.ClockError.driftExceeded(let stamp, _) {

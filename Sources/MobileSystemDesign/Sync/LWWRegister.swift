@@ -9,7 +9,7 @@ import Foundation
 ///
 /// ```swift
 /// var title = LWWRegister("Groceries", timestamp: try clock.tick())
-/// title.merge(remoteTitle)
+/// try title.merge(remoteTitle, using: &clock)
 /// ```
 ///
 /// Last-writer-wins drops the losing edit. That suits a title, a setting or a profile field;
@@ -37,7 +37,32 @@ public struct LWWRegister<Value: Sendable>: Sendable {
         return true
     }
 
-    /// Keeps whichever of the two copies was written last.
+    /// Merges a copy received from another device, after `clock` accepted its timestamp.
+    ///
+    /// The timestamp goes through ``HybridLogicalClock/receive(_:physicalTime:)`` first, so a
+    /// copy stamped too far in the future, or with an empty or oversized node id, is rejected
+    /// before it can win: a register holding such a timestamp would beat every later local edit.
+    /// Receiving also moves `clock` past the remote timestamp, so the next local edit wins over
+    /// the merged one.
+    ///
+    /// - Returns: `true` when this copy took the other one's value.
+    /// - Throws: The clock's error. The register and the clock are then unchanged.
+    @discardableResult
+    public mutating func merge(
+        _ other: LWWRegister<Value>,
+        using clock: inout HybridLogicalClock,
+        physicalTime: Date = Date()
+    ) throws -> Bool {
+        _ = try clock.receive(other.timestamp, physicalTime: physicalTime)
+        return set(other.value, timestamp: other.timestamp)
+    }
+
+    /// Keeps whichever of the two copies was written last, without checking the other copy's
+    /// timestamp.
+    ///
+    /// Use it only for copies this device has already checked, such as its own saved state or
+    /// replicas merged on a trusted server. For a copy from another device, use
+    /// ``merge(_:using:physicalTime:)``.
     ///
     /// - Returns: `true` when this copy took the other one's value.
     @discardableResult

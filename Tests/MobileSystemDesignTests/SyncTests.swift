@@ -171,6 +171,40 @@ struct LWWRegisterTests {
         #expect(Set(results.map(\.value)) == ["tablet"])
     }
 
+    @Test("a checked merge rejects a remote timestamp the clock refuses, so local edits still win",
+          arguments: [
+              HybridTimestamp(milliseconds: .max, counter: 0, node: "evil"),
+              HybridTimestamp(milliseconds: 1_000, counter: 0, node: String(repeating: "x", count: 1_000_000)),
+              HybridTimestamp(milliseconds: 1_000, counter: 0, node: "")
+          ])
+    func checkedMergeRejects(remote: HybridTimestamp) throws {
+        let base = Date(timeIntervalSince1970: 1_800_000_000)
+        var clock = HybridLogicalClock(node: "a")
+        var register = LWWRegister("mine", timestamp: try clock.tick(physicalTime: base))
+        let before = (register, clock)
+
+        #expect(throws: HybridLogicalClock.ClockError.self) {
+            try register.merge(LWWRegister("theirs", timestamp: remote), using: &clock, physicalTime: base)
+        }
+        #expect(register == before.0 && clock == before.1)
+
+        let edited = register.set("edited", timestamp: try clock.tick(physicalTime: base.addingTimeInterval(1)))
+        #expect(edited && register.value == "edited")
+    }
+
+    @Test("a checked merge takes a later remote copy and orders the next local edit after it")
+    func checkedMergeAccepts() throws {
+        let base = Date(timeIntervalSince1970: 1_800_000_000)
+        var clock = HybridLogicalClock(node: "a")
+        var register = LWWRegister("mine", timestamp: try clock.tick(physicalTime: base))
+        let remote = LWWRegister("theirs", timestamp: stamp(1_800_000_030_000, 4, "b"))
+
+        #expect(try register.merge(remote, using: &clock, physicalTime: base))
+        #expect(register == remote)
+        #expect(try register.merge(remote, using: &clock, physicalTime: base) == false)
+        #expect(register.set("later", timestamp: try clock.tick(physicalTime: base)))
+    }
+
     @Test("round-trips through JSON")
     func codable() throws {
         let register = LWWRegister(42, timestamp: stamp(7, 3, "node"))
