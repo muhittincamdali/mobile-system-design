@@ -40,7 +40,7 @@ run it in the example app, and use it in your own.
   are clamped or rejected: no trap on NaN, overflow or a malformed header, no endless loop on
   a server that repeats its cursor, and every queue and cache has a size limit.
 - **Swift 6 language mode** — actors for shared state, `Sendable` types, no warnings.
-- **Tested** — 109 Swift Testing tests, run on macOS and an iPhone simulator, including the
+- **Tested** — 111 Swift Testing tests, run on macOS and an iPhone simulator, including the
   README samples below.
 - **An example app** — [SystemDesignLab](Examples/SystemDesignLab) runs each building block
   against a simulated server that you can make flaky, take down or disconnect.

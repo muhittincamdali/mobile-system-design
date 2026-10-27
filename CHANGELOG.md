@@ -34,7 +34,7 @@ only; its pages were replaced, so this is a major version.
       sizes.
 - Inputs from remote configuration, HTTP headers, files and other devices are clamped or
   rejected: no trap on NaN, infinity, integer overflow or malformed text.
-- 109 Swift Testing tests, run on macOS and an iPhone simulator, including the README samples.
+- 111 Swift Testing tests, run on macOS and an iPhone simulator, including the README samples.
 - DocC documentation with four articles: getting started, a resilient network layer, an
   offline-first feed, and capacity estimates.
 - `Examples/SystemDesignLab`, an iOS and macOS app with one lab per building block and a
