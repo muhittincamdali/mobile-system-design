@@ -46,7 +46,15 @@ public struct HybridLogicalClock: Sendable, Hashable {
         /// The wall-clock time is not representable in milliseconds (NaN, infinite or out of
         /// range).
         case invalidPhysicalTime
+        /// A remote timestamp's node id is empty or longer than
+        /// ``HybridLogicalClock/maximumNodeLength`` UTF-8 bytes.
+        case invalidNode
     }
+
+    /// The longest node id ``receive(_:physicalTime:)`` accepts, in UTF-8 bytes. Timestamps are
+    /// stored with the values they order, so a remote id of arbitrary length would let another
+    /// device grow this device's storage.
+    public static let maximumNodeLength = 128
 
     /// The id of this device or replica.
     public let node: String
@@ -92,8 +100,10 @@ public struct HybridLogicalClock: Sendable, Hashable {
     /// both it and every local event.
     ///
     /// - Throws: ``ClockError/driftExceeded(remote:localMilliseconds:)`` when `remote` is more
-    ///   than ``maximumDrift`` ahead; the clock is unchanged. ``ClockError/invalidPhysicalTime``.
+    ///   than ``maximumDrift`` ahead, ``ClockError/invalidNode`` when its node id is empty or too
+    ///   long, ``ClockError/invalidPhysicalTime``. The clock is unchanged when it throws.
     public mutating func receive(_ remote: HybridTimestamp, physicalTime: Date = Date()) throws -> HybridTimestamp {
+        guard !remote.node.isEmpty, remote.node.utf8.count <= Self.maximumNodeLength else { throw ClockError.invalidNode }
         guard let wall = Self.milliseconds(of: physicalTime) else { throw ClockError.invalidPhysicalTime }
         let driftMilliseconds = maximumDrift.components.seconds.multipliedReportingOverflow(by: 1000)
         let allowed = driftMilliseconds.overflow ? Int64.max : driftMilliseconds.partialValue

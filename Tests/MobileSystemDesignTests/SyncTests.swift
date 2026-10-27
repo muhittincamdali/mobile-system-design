@@ -100,6 +100,18 @@ struct HybridLogicalClockTests {
         #expect(throws: HybridLogicalClock.ClockError.invalidPhysicalTime) { try clock.receive(remote, physicalTime: date) }
     }
 
+    @Test("rejects remote node ids that are empty or too long", arguments: [0, 129, 1_000_000])
+    func rejectsInvalidNode(length: Int) throws {
+        var clock = HybridLogicalClock(node: "a")
+        let before = try clock.tick(physicalTime: base)
+        let remote = HybridTimestamp(milliseconds: 1, counter: 0, node: String(repeating: "x", count: length))
+        #expect(throws: HybridLogicalClock.ClockError.invalidNode) { try clock.receive(remote, physicalTime: base) }
+        #expect(clock.latest == before)
+        let longest = HybridTimestamp(milliseconds: 1, counter: 0, node: String(repeating: "é", count: 64))
+        let accepted = try clock.receive(longest, physicalTime: base)
+        #expect(accepted > before)
+    }
+
     @Test("dates before 1970 convert to negative milliseconds")
     func negativeMilliseconds() {
         #expect(HybridLogicalClock.milliseconds(of: Date(timeIntervalSince1970: -1.5)) == -1_500)
