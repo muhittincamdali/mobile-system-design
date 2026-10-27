@@ -212,8 +212,8 @@ struct OutboxTests {
         _ = await outbox.flush(now: now) { try server.send($0) }
         let id = try #require(await outbox.deadLetters.first?.id)
 
-        #expect(await outbox.retryDeadLetter(id: id))
-        #expect(await outbox.retryDeadLetter(id: UUID()) == false)
+        #expect(try await outbox.retryDeadLetter(id: id))
+        #expect(try await outbox.retryDeadLetter(id: UUID()) == false)
         let report = await outbox.flush(now: now) { try server.send($0) }
         #expect(report.delivered == [id]) // same id: the server can deduplicate
         #expect(await outbox.deadLetters.isEmpty)
@@ -266,6 +266,30 @@ struct OutboxTests {
         #expect(report.saveFailed)
         #expect(report.delivered.count == 1)
         #expect(store.snapshot.pending.count == 1) // the store still has the old state
+    }
+
+    @Test("a failed save leaves retrying and discarding dead letters without effect")
+    func deadLetterSaveFailures() async throws {
+        let store = FlakyStore()
+        let outbox = try makeOutbox(store: store)
+        for id in 1...2 {
+            server.rejectAlways(postID: id)
+            try await outbox.enqueue(LikeChange(postID: id, liked: true), now: now)
+        }
+        _ = await outbox.flush(now: now) { try server.send($0) }
+        let id = try #require(await outbox.deadLetters.first?.id)
+
+        store.failSaves = true
+        await #expect(throws: CocoaError.self) { try await outbox.retryDeadLetter(id: id) }
+        await #expect(throws: CocoaError.self) { try await outbox.discardDeadLetters() }
+        #expect(await outbox.pending.isEmpty)
+        #expect(await outbox.deadLetters.map(\.payload.postID) == [1, 2])
+
+        store.failSaves = false
+        #expect(try await outbox.retryDeadLetter(id: id))
+        try await outbox.discardDeadLetters()
+        #expect(store.snapshot.pending.map(\.id) == [id])
+        #expect(store.snapshot.deadLetters.isEmpty)
     }
 }
 

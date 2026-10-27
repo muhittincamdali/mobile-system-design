@@ -207,24 +207,30 @@ public actor Outbox<Payload: Codable & Sendable> {
         return report
     }
 
-    /// Moves a dead letter back to the end of the queue with its attempts reset.
+    /// Moves a dead letter back to the end of the queue with its attempts reset, and saves it.
     ///
     /// - Returns: `false` when there is no dead letter with that id or the outbox is full.
+    /// - Throws: The store's save error. The outbox is then unchanged.
     @discardableResult
-    public func retryDeadLetter(id: UUID) -> Bool {
+    public func retryDeadLetter(id: UUID) throws -> Bool {
         guard pending.count < capacity, let index = deadLetters.firstIndex(where: { $0.id == id }) else { return false }
-        var entry = deadLetters.remove(at: index)
+        var remainingDeadLetters = deadLetters
+        var entry = remainingDeadLetters.remove(at: index)
         entry.attempts = 0
         entry.notBefore = nil
-        pending.append(entry)
-        save()
+        let updatedPending = pending + [entry]
+        try store.save(OutboxSnapshot(pending: updatedPending, deadLetters: remainingDeadLetters))
+        pending = updatedPending
+        deadLetters = remainingDeadLetters
         return true
     }
 
-    /// Deletes every dead letter.
-    public func discardDeadLetters() {
+    /// Deletes every dead letter and saves the outbox.
+    ///
+    /// - Throws: The store's save error. The dead letters are then kept.
+    public func discardDeadLetters() throws {
+        try store.save(OutboxSnapshot(pending: pending, deadLetters: []))
         deadLetters.removeAll()
-        save()
     }
 
     /// Returns the retry time for a temporary failure, or `nil` after moving the entry to the
@@ -260,7 +266,6 @@ public actor Outbox<Payload: Codable & Sendable> {
         return retryAt
     }
 
-    @discardableResult
     private func save() -> Bool {
         do {
             try store.save(OutboxSnapshot(pending: pending, deadLetters: deadLetters))
