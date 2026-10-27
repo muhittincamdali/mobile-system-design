@@ -34,3 +34,9 @@ dist/
 # Temporary
 tmp/
 temp/
+
+# Swift Package Manager and Xcode
+.build/
+.swiftpm/
+DerivedData/
+xcuserdata/
