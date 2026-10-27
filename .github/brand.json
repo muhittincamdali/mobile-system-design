@@ -1,0 +1,43 @@
+{
+  "name": "Mobile System Design",
+  "repository": "muhittincamdali/mobile-system-design",
+  "tagline": {
+    "en": "A mobile system design guide with tested Swift building blocks: caching, retries, pagination, offline sync."
+  },
+  "tags": {
+    "en": [
+      "System design",
+      "Swift 6",
+      "iOS · macOS",
+      "Tested code"
+    ]
+  },
+  "motif": "components",
+  "buttons": [
+    "start",
+    "docs",
+    "examples"
+  ],
+  "links": {
+    "docs": "https://muhittincamdali.github.io/mobile-system-design/documentation/mobilesystemdesign/",
+    "examples": "Examples/"
+  },
+  "languages": [
+    "en",
+    "tr",
+    "zh-CN",
+    "ja",
+    "ko",
+    "es",
+    "de",
+    "fr",
+    "pt-BR",
+    "ru"
+  ],
+  "docc": {
+    "targets": [
+      "MobileSystemDesign"
+    ]
+  },
+  "socialTheme": "dark"
+}

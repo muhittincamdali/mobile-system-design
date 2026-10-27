@@ -1,80 +1,74 @@
-# Contributing to SwiftRouter
+# Contributing
 
-First off, thank you for considering contributing to SwiftRouter! It's people like you that make SwiftRouter such a great tool.
+Thanks for taking the time to improve Mobile System Design. The repository has two parts that
+change together: the guide in `docs/` and the Swift package in `Sources/`.
 
-## Code of Conduct
+## Reporting a problem
 
-This project and everyone participating in it is governed by our Code of Conduct. By participating, you are expected to uphold this code.
+Open an issue with:
 
-## How Can I Contribute?
+- for the guide: the page and the paragraph, what is wrong or unclear, and a source (an RFC,
+  Apple or Android documentation) when the point is factual;
+- for the package: the type and the call, what you expected and what happened, and the
+  platform, OS version and Xcode version.
 
-### Reporting Bugs
+## Changing the guide
 
-Before creating bug reports, please check the existing issues as you might find out that you don't need to create one. When you are creating a bug report, please include as many details as possible:
+- Keep each page focused on design questions and trade-offs. Where code helps, link to the
+  package type instead of pasting a long listing.
+- State numbers with the assumptions they come from ("at 160 kbit/s, a 3.5-minute track is
+  about 4.2 MB"). Do not quote scale figures of real companies without a public source.
+- Link to the primary source: the RFC, or the Apple or Android documentation page.
+- A new case study follows the steps of [the framework](docs/framework.md): requirements,
+  estimates, high-level design, API and data, deep dives, trade-offs and metrics. Add it to
+  [docs/README.md](docs/README.md).
 
-- **Use a clear and descriptive title**
-- **Describe the exact steps which reproduce the problem**
-- **Provide specific examples to demonstrate the steps**
-- **Describe the behavior you observed after following the steps**
-- **Explain which behavior you expected to see instead and why**
-- **Include Swift version and OS version**
+## Changing the package
 
-### Suggesting Enhancements
+1. Fork the repository and branch from `main`. Keep each pull request to one change.
+2. Every public type needs tests in `Tests/MobileSystemDesignTests`, including the edge cases
+   its inputs can produce: negative values, NaN and infinity, `Int.max`, empty and malformed
+   text, concurrent calls. Inject time (a clock, a `now` parameter or a sleep function) so the
+   tests never sleep.
+3. Values that can come from outside the app — remote configuration, HTTP headers, files,
+   other devices — must be clamped or rejected, never trap. Collections that grow with input
+   need a limit.
+4. The package has no dependencies and builds in the Swift 6 language mode without warnings.
+   Document public API with DocC comments (`///`); the catalog builds with
+   `--warnings-as-errors`.
+5. Run the checks:
 
-Enhancement suggestions are tracked as GitHub issues. When creating an enhancement suggestion, please include:
+    ```sh
+    swift test
+    xcodebuild test -scheme MobileSystemDesign \
+      -destination 'platform=iOS Simulator,name=iPhone 17'
+    xcodebuild docbuild -scheme MobileSystemDesign -destination 'generic/platform=macOS' \
+      OTHER_DOCC_FLAGS=--warnings-as-errors
+    node scripts/check-readme-samples.mjs
+    ```
 
-- **Use a clear and descriptive title**
-- **Provide a step-by-step description of the suggested enhancement**
-- **Provide specific examples to demonstrate the steps**
-- **Describe the current behavior and explain which behavior you expected to see instead**
-- **Explain why this enhancement would be useful**
+6. If you change a README code sample, change the copy in
+   `Examples/SystemDesignLab/SystemDesignLab/ReadmeSamples.swift` as well. That file is
+   compiled by the example app and, through the symlink
+   `Tests/MobileSystemDesignTests/ReadmeExamples.swift`, compiled and run by `swift test`.
+   Build the app with:
 
-### Pull Requests
+    ```sh
+    cd Examples/SystemDesignLab
+    xcodebuild build -scheme SystemDesignLab -destination 'generic/platform=iOS Simulator'
+    ```
 
-1. Fork the repo and create your branch from `main`
-2. If you've added code that should be tested, add tests
-3. If you've changed APIs, update the documentation
-4. Ensure the test suite passes
-5. Make sure your code follows the existing style (SwiftLint)
-6. Issue that pull request!
+7. If a change affects a lab's screen, regenerate the screenshots with
+   `scripts/capture-screenshots.sh`.
+8. `README.md` is translated into other languages (`README.<language>.md`). If you change
+   `README.md` and cannot update the translations, say so in the pull request.
 
-## Development Setup
+## Style
 
-```bash
-# Clone your fork
-git clone https://github.com/YOUR_USERNAME/SwiftRouter.git
-
-# Navigate to the project
-cd SwiftRouter
-
-# Open in Xcode
-open Package.swift
-
-# Run tests
-swift test
-```
-
-## Style Guide
-
-- Follow [Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
-- Use SwiftLint for code style consistency
-- Write meaningful commit messages following [Conventional Commits](https://www.conventionalcommits.org/)
-- Document public APIs with DocC-compatible comments
-
-## Commit Messages
-
-We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
-
-- `feat:` A new feature
-- `fix:` A bug fix
-- `docs:` Documentation only changes
-- `style:` Code style changes (formatting, semicolons, etc)
-- `refactor:` Code change that neither fixes a bug nor adds a feature
-- `test:` Adding missing tests
-- `chore:` Changes to the build process or auxiliary tools
-
-Example: `feat(deeplink): add universal link support`
+- Follow the [Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/).
+- Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/)
+  (`feat:`, `fix:`, `docs:`, `test:`, `refactor:`, `ci:`, `chore:`).
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the MIT License.
+By contributing you agree that your contributions are licensed under the MIT License.

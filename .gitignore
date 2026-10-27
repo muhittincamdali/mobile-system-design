@@ -34,3 +34,12 @@ dist/
 # Temporary
 tmp/
 temp/
+
+# Swift Package Manager and Xcode
+.build/
+.swiftpm/
+DerivedData/
+xcuserdata/
+
+# Link checker cache (lychee)
+.lycheecache
