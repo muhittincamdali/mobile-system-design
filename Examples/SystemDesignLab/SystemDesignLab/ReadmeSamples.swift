@@ -6,10 +6,11 @@
 // and runs the samples in ReadmeSampleTests.swift.
 
 import Foundation
+
+// readme:begin quick-start
 import MobileSystemDesign
 import SwiftUI
 
-// readme:begin quick-start
 struct FeedItem: Identifiable, Sendable {
     let id: Int
 }
