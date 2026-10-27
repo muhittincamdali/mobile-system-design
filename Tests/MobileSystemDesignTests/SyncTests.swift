@@ -171,13 +171,26 @@ struct LWWRegisterTests {
         #expect(Set(results.map(\.value)) == ["tablet"])
     }
 
+    // The cases are named instead of passed as values: the test output prints every argument, and a
+    // node id of a million characters made one line of a megabyte, which stalled the CI log pipe.
+    enum RefusedTimestamp: String, CaseIterable, CustomTestStringConvertible {
+        case endOfTime, oversizedNode, emptyNode
+
+        var testDescription: String { rawValue }
+
+        var timestamp: HybridTimestamp {
+            switch self {
+            case .endOfTime: HybridTimestamp(milliseconds: .max, counter: 0, node: "evil")
+            case .oversizedNode: HybridTimestamp(milliseconds: 1_000, counter: 0, node: String(repeating: "x", count: 1_000_000))
+            case .emptyNode: HybridTimestamp(milliseconds: 1_000, counter: 0, node: "")
+            }
+        }
+    }
+
     @Test("a checked merge rejects a remote timestamp the clock refuses, so local edits still win",
-          arguments: [
-              HybridTimestamp(milliseconds: .max, counter: 0, node: "evil"),
-              HybridTimestamp(milliseconds: 1_000, counter: 0, node: String(repeating: "x", count: 1_000_000)),
-              HybridTimestamp(milliseconds: 1_000, counter: 0, node: "")
-          ])
-    func checkedMergeRejects(remote: HybridTimestamp) throws {
+          arguments: RefusedTimestamp.allCases)
+    func checkedMergeRejects(refused: RefusedTimestamp) throws {
+        let remote = refused.timestamp
         let base = Date(timeIntervalSince1970: 1_800_000_000)
         var clock = HybridLogicalClock(node: "a")
         var register = LWWRegister("mine", timestamp: try clock.tick(physicalTime: base))
