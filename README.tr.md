@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@e8cdb614e0a73e05a8def8ea58e5820d77a216c2 status=reviewed -->
+<!-- i18n-source: README.md@cb1bed719d3d683e6e86c775015a12ee159071a5 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg" alt="Mobile System Design: A mobile system design guide with tested Swift building blocks: caching, retries, pagination, offline sync."></picture></p>
@@ -268,7 +268,8 @@ static func resolveConflict() throws -> String {
     _ = try tablet.receive(phoneTitle.timestamp, physicalTime: now.addingTimeInterval(-30))
     let tabletTitle = LWWRegister("Weekend groceries", timestamp: try tablet.tick(physicalTime: now.addingTimeInterval(-29)))
 
-    phoneTitle.merge(tabletTitle)
+    // The phone's clock checks the tablet's timestamp before the copy can win.
+    try phoneTitle.merge(tabletTitle, using: &phone, physicalTime: now.addingTimeInterval(1))
     return phoneTitle.value // "Weekend groceries"
 }
 ```

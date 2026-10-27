@@ -129,7 +129,8 @@ enum ReadmeSamples {
         _ = try tablet.receive(phoneTitle.timestamp, physicalTime: now.addingTimeInterval(-30))
         let tabletTitle = LWWRegister("Weekend groceries", timestamp: try tablet.tick(physicalTime: now.addingTimeInterval(-29)))
 
-        phoneTitle.merge(tabletTitle)
+        // The phone's clock checks the tablet's timestamp before the copy can win.
+        try phoneTitle.merge(tabletTitle, using: &phone, physicalTime: now.addingTimeInterval(1))
         return phoneTitle.value // "Weekend groceries"
     }
     // readme:end

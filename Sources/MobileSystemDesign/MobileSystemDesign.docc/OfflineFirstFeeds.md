@@ -106,13 +106,13 @@ var clock = HybridLogicalClock(node: deviceID)
 var title = LWWRegister("Groceries", timestamp: try clock.tick())
 
 // When a copy arrives from another device:
-_ = try clock.receive(remote.timestamp)
-title.merge(remote)
+try title.merge(remote, using: &clock)
 ```
 
-The hybrid clock follows the wall clock but never goes backwards, and
-``HybridLogicalClock/receive(_:physicalTime:)`` orders the next local edit after everything
-the device has seen. An edit made after seeing another edit therefore wins, even on a device
+The hybrid clock follows the wall clock but never goes backwards.
+``LWWRegister/merge(_:using:physicalTime:)`` passes the remote timestamp through
+``HybridLogicalClock/receive(_:physicalTime:)`` before the copy can win, which orders the next
+local edit after everything the device has seen. An edit made after seeing another edit therefore wins, even on a device
 whose clock is behind. Timestamps more than ``HybridLogicalClock/maximumDrift`` ahead of the
 local clock are rejected, so one device with a wrong clock cannot win every conflict.
 
