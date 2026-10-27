@@ -80,7 +80,9 @@ Call `flush` when the scene becomes active and when `NWPathMonitor` reports a us
 The outbox keeps these promises:
 
 - **Order.** Entries go oldest first. A temporary failure keeps the entry at the head and
-  schedules it with the retry policy, so a later change never overtakes an earlier one.
+  schedules it with the retry policy, so a later change never overtakes an earlier one. A
+  `Retry-After` longer than the policy's `maxDelay` moves the entry to the dead letters
+  instead, as ``Retrier`` gives up, so one answer cannot hold the queue for a day.
 - **Exactly-once effect.** Each entry has a UUID; send it as the idempotency key so the
   server can ignore a repeated request that had in fact arrived.
 - **Coalescing.** With a `coalescingKey`, a newer change replaces the waiting one — liking and

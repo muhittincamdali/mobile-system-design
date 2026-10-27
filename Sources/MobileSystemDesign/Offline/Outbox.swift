@@ -68,9 +68,10 @@ public struct OutboxFlushReport: Sendable, Hashable {
 /// ```
 ///
 /// Entries are sent oldest first, one at a time. A temporary failure keeps the entry at the head
-/// and schedules it with the retry policy's backoff, so later changes never overtake earlier
-/// ones. A permanent failure, or running out of attempts, moves the entry to
-/// ``deadLetters`` for the app to show or discard. Every change is saved to the store before
+/// and schedules it with the retry policy's backoff, or with the server's `Retry-After` when it
+/// is at most ``RetryPolicy/maxDelay``, so later changes never overtake earlier ones. A
+/// permanent failure, a longer `Retry-After`, or running out of attempts moves the entry to
+/// ``deadLetters`` for the app to show or discard, as ``Retrier`` gives up in the same cases. Every change is saved to the store before
 /// the call returns.
 public actor Outbox<Payload: Codable & Sendable> {
     /// Entries waiting to be sent, oldest first.
@@ -240,7 +241,9 @@ public actor Outbox<Payload: Codable & Sendable> {
         case .retry:
             wait = retryPolicy.delay(afterAttempt: failed.attempts, randomUnit: random())
         case .retryAfter(let requested):
-            wait = max(requested, .zero)
+            // As in Retrier: a wait above maxDelay gives up, instead of holding every later
+            // change behind the head entry for as long as the server (or classify) asks.
+            wait = requested <= retryPolicy.maxDelay ? max(requested, .zero) : nil
         }
 
         guard let wait, failed.attempts < retryPolicy.maxAttempts else {

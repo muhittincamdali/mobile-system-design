@@ -119,11 +119,23 @@ struct OutboxTests {
 
     @Test("Retry-After from the server sets the next attempt")
     func retryAfter() async throws {
-        let outbox = try makeOutbox()
+        let outbox = try makeOutbox(policy: RetryPolicy(maxAttempts: 3, maxDelay: .seconds(90)))
         try await outbox.enqueue(LikeChange(postID: 1, liked: true), now: now)
         server.failOnce(postID: 1, with: HTTPStatusError(statusCode: 429, retryAfter: .seconds(90)))
         let report = await outbox.flush(now: now) { try server.send($0) }
         #expect(report.nextAttempt == now.addingTimeInterval(90))
+    }
+
+    @Test("a Retry-After above the policy's maximum delay moves the entry to the dead letters, as Retrier gives up")
+    func retryAfterAboveMaximum() async throws {
+        let outbox = try makeOutbox(policy: RetryPolicy(maxAttempts: 3, maxDelay: .seconds(90)))
+        for id in 1...2 { try await outbox.enqueue(LikeChange(postID: id, liked: true), now: now) }
+        server.failOnce(postID: 1, with: HTTPStatusError(statusCode: 503, retryAfter: .seconds(86_400)))
+        let report = await outbox.flush(now: now) { try server.send($0) }
+        #expect(report.deadLettered.count == 1)
+        #expect(report.nextAttempt == nil)
+        #expect(server.sent.map(\.postID) == [2]) // the next change is not held behind it
+        #expect(await outbox.deadLetters.map(\.payload.postID) == [1])
     }
 
     @Test("a coalescing key keeps only the latest change")
