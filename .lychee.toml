@@ -45,8 +45,9 @@ remap = [
   '^https://github\.com/muhittincamdali/mobile-system-design/(?:blob|tree)/main/(.*)$ file:///home/runner/work/mobile-system-design/mobile-system-design/$1',
   # The article pages on GitHub Pages are built from the .docc articles by docs.yml after a push
   # to main, so a pull request that adds an article links to a page that is not online yet. Each
-  # article URL is checked against its source file instead; the documentation root stays a live
-  # check, so a site that is down still fails.
+  # article URL is checked against its source file instead, and so is the documentation root
+  # (the landing page of the catalog). After a merge the Pages site itself is checked by hand.
+  '^https://muhittincamdali\.github\.io/mobile-system-design/documentation/mobilesystemdesign/?$ file:///home/runner/work/mobile-system-design/mobile-system-design/Sources/MobileSystemDesign/MobileSystemDesign.docc/MobileSystemDesign.md',
   '^https://muhittincamdali\.github\.io/mobile-system-design/documentation/mobilesystemdesign/gettingstarted$ file:///home/runner/work/mobile-system-design/mobile-system-design/Sources/MobileSystemDesign/MobileSystemDesign.docc/GettingStarted.md',
   '^https://muhittincamdali\.github\.io/mobile-system-design/documentation/mobilesystemdesign/resilientnetworking$ file:///home/runner/work/mobile-system-design/mobile-system-design/Sources/MobileSystemDesign/MobileSystemDesign.docc/ResilientNetworking.md',
   '^https://muhittincamdali\.github\.io/mobile-system-design/documentation/mobilesystemdesign/offlinefirstfeeds$ file:///home/runner/work/mobile-system-design/mobile-system-design/Sources/MobileSystemDesign/MobileSystemDesign.docc/OfflineFirstFeeds.md',
