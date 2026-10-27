@@ -40,3 +40,6 @@ temp/
 .swiftpm/
 DerivedData/
 xcuserdata/
+
+# Link checker cache (lychee)
+.lycheecache
