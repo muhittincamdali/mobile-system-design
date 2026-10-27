@@ -89,6 +89,18 @@ struct HybridLogicalClockTests {
         #expect(merged > remote)
     }
 
+    @Test("throws at the last representable timestamp instead of repeating it")
+    func exhausted() throws {
+        var clock = HybridLogicalClock(node: "a", maximumDrift: .seconds(Int64.max))
+        let last = HybridTimestamp(milliseconds: .max, counter: .max - 1, node: "b")
+        let merged = try clock.receive(last, physicalTime: base)
+        #expect(merged == HybridTimestamp(milliseconds: .max, counter: .max, node: "a"))
+
+        #expect(throws: HybridLogicalClock.ClockError.exhausted) { try clock.tick(physicalTime: base) }
+        #expect(throws: HybridLogicalClock.ClockError.exhausted) { try clock.receive(last, physicalTime: base) }
+        #expect(clock.latest == merged)
+    }
+
     @Test("dates that do not fit in milliseconds throw instead of trapping",
           arguments: [Double.nan, .infinity, -.infinity, 1e300, -1e300])
     func invalidPhysicalTime(seconds: Double) {

@@ -49,6 +49,10 @@ public struct HybridLogicalClock: Sendable, Hashable {
         /// A remote timestamp's node id is empty or longer than
         /// ``HybridLogicalClock/maximumNodeLength`` UTF-8 bytes.
         case invalidNode
+        /// The clock reached the largest representable timestamp (`Int64.max` milliseconds with
+        /// an exhausted counter), so it cannot make a later one. Only a remote timestamp near
+        /// `Int64.max`, accepted because ``maximumDrift`` is very large, gets a clock there.
+        case exhausted
     }
 
     /// The longest node id ``receive(_:physicalTime:)`` accepts, in UTF-8 bytes. Timestamps are
@@ -85,13 +89,14 @@ public struct HybridLogicalClock: Sendable, Hashable {
     /// Makes a timestamp for a local event.
     ///
     /// - Parameter physicalTime: The wall-clock time.
-    /// - Throws: ``ClockError/invalidPhysicalTime``.
+    /// - Throws: ``ClockError/invalidPhysicalTime``, ``ClockError/exhausted``. The clock is
+    ///   unchanged when it throws.
     public mutating func tick(physicalTime: Date = Date()) throws -> HybridTimestamp {
         guard let wall = Self.milliseconds(of: physicalTime) else { throw ClockError.invalidPhysicalTime }
         if wall > latest.milliseconds {
             latest = HybridTimestamp(milliseconds: wall, counter: 0, node: node)
         } else {
-            latest = advanced(milliseconds: latest.milliseconds, counter: latest.counter)
+            latest = try advanced(milliseconds: latest.milliseconds, counter: latest.counter)
         }
         return latest
     }
@@ -101,7 +106,8 @@ public struct HybridLogicalClock: Sendable, Hashable {
     ///
     /// - Throws: ``ClockError/driftExceeded(remote:localMilliseconds:)`` when `remote` is more
     ///   than ``maximumDrift`` ahead, ``ClockError/invalidNode`` when its node id is empty or too
-    ///   long, ``ClockError/invalidPhysicalTime``. The clock is unchanged when it throws.
+    ///   long, ``ClockError/invalidPhysicalTime``, ``ClockError/exhausted``. The clock is
+    ///   unchanged when it throws.
     public mutating func receive(_ remote: HybridTimestamp, physicalTime: Date = Date()) throws -> HybridTimestamp {
         guard !remote.node.isEmpty, remote.node.utf8.count <= Self.maximumNodeLength else { throw ClockError.invalidNode }
         guard let wall = Self.milliseconds(of: physicalTime) else { throw ClockError.invalidPhysicalTime }
@@ -114,11 +120,11 @@ public struct HybridLogicalClock: Sendable, Hashable {
 
         let maxWall = max(wall, latest.milliseconds, remote.milliseconds)
         if maxWall == latest.milliseconds, maxWall == remote.milliseconds {
-            latest = advanced(milliseconds: maxWall, counter: max(latest.counter, remote.counter))
+            latest = try advanced(milliseconds: maxWall, counter: max(latest.counter, remote.counter))
         } else if maxWall == latest.milliseconds {
-            latest = advanced(milliseconds: maxWall, counter: latest.counter)
+            latest = try advanced(milliseconds: maxWall, counter: latest.counter)
         } else if maxWall == remote.milliseconds {
-            latest = advanced(milliseconds: maxWall, counter: remote.counter)
+            latest = try advanced(milliseconds: maxWall, counter: remote.counter)
         } else {
             latest = HybridTimestamp(milliseconds: maxWall, counter: 0, node: node)
         }
@@ -126,12 +132,14 @@ public struct HybridLogicalClock: Sendable, Hashable {
     }
 
     /// The timestamp after `(milliseconds, counter)`. When the counter is exhausted it moves to
-    /// the next millisecond instead of wrapping around, so timestamps keep increasing.
-    private func advanced(milliseconds: Int64, counter: UInt32) -> HybridTimestamp {
-        if counter == .max {
-            let (next, overflow) = milliseconds.addingReportingOverflow(1)
-            return HybridTimestamp(milliseconds: overflow ? milliseconds : next, counter: overflow ? counter : 0, node: node)
+    /// the next millisecond instead of wrapping around, so timestamps keep increasing; it throws
+    /// when there is no next millisecond either, rather than return the same timestamp again.
+    private func advanced(milliseconds: Int64, counter: UInt32) throws -> HybridTimestamp {
+        guard counter == .max else {
+            return HybridTimestamp(milliseconds: milliseconds, counter: counter + 1, node: node)
         }
-        return HybridTimestamp(milliseconds: milliseconds, counter: counter + 1, node: node)
+        let (next, overflow) = milliseconds.addingReportingOverflow(1)
+        guard !overflow else { throw ClockError.exhausted }
+        return HybridTimestamp(milliseconds: next, counter: 0, node: node)
     }
 }
