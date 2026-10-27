@@ -1,4 +1,5 @@
-# Repository-specific: builds the example app that the README samples are copied from.
+# Repository-specific: builds the example app that the README samples are copied from, and
+# checks that the README shows the same samples.
 name: Example app
 
 on:
@@ -46,3 +47,16 @@ jobs:
             -destination "$DESTINATION" -skipPackagePluginValidation -skipMacroValidation \
             CODE_SIGNING_ALLOWED=NO -quiet
 
+  readme-samples:
+    name: README samples match the example app
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Compare
+        run: node scripts/check-readme-samples.mjs
