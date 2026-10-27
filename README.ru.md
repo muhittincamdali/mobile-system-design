@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@cb1bed719d3d683e6e86c775015a12ee159071a5 status=reviewed -->
+<!-- i18n-source: README.md@d03b4b12f1062ccc5bd8c9eece9ab260ab980056 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg" alt="Mobile System Design: A mobile system design guide with tested Swift building blocks: caching, retries, pagination, offline sync."></picture></p>
@@ -33,7 +33,7 @@
 - **Строительные блоки, которые можно запустить** — LRU cache, повторные попытки с backoff и `Retry-After`, circuit breaker, token bucket, paginator на основе cursor, постоянный outbox, hybrid logical clock и last-writer-wins register, оценка ёмкости.
 - **Рассчитано на некорректные данные** — значения из удалённой конфигурации, заголовков сервера и сохранённых файлов ограничиваются или отклоняются: нет аварийного завершения из-за NaN, переполнения или неправильного заголовка, нет бесконечного цикла при сервере, который повторяет свой cursor, а у каждой очереди и каждого кэша есть предел размера.
 - **Языковой режим Swift 6** — actor для общего состояния, типы `Sendable`, ни одного предупреждения.
-- **Протестировано** — 111 тестов Swift Testing, которые выполняются на macOS и в симуляторе iPhone, включая примеры из README ниже.
+- **Протестировано** — 117 тестов Swift Testing, которые выполняются на macOS и в симуляторе iPhone, включая примеры из README ниже.
 - **Демонстрационное приложение** — [SystemDesignLab](Examples/SystemDesignLab) запускает каждый блок на имитируемом сервере, который можно сделать нестабильным, отключить или лишить связи.
 
 ### Что входит в пакет

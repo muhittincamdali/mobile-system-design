@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@cb1bed719d3d683e6e86c775015a12ee159071a5 status=reviewed -->
+<!-- i18n-source: README.md@d03b4b12f1062ccc5bd8c9eece9ab260ab980056 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg" alt="Mobile System Design: A mobile system design guide with tested Swift building blocks: caching, retries, pagination, offline sync."></picture></p>
@@ -33,7 +33,7 @@
 - **動かせる構成要素** — LRU cache、backoff と `Retry-After` に対応したリトライ、circuit breaker、token bucket、cursor 方式の paginator、永続的な outbox、hybrid logical clock と last-writer-wins register、容量の見積もり。
 - **不正な入力を想定した設計** — リモート構成、サーバーヘッダー、保存済みファイルから来る値は、範囲内に収めるか拒否します。NaN、オーバーフロー、不正な形式のヘッダーでクラッシュせず、同じ cursor を返し続けるサーバーでも無限ループにならず、すべてのキューとキャッシュにサイズ上限があります。
 - **Swift 6 言語モード** — 共有状態は actor で保護し、`Sendable` な型を使い、警告はありません。
-- **テスト済み** — 111 個の Swift Testing テストを macOS と iPhone シミュレータで実行しており、以下の README のサンプルも含まれます。
+- **テスト済み** — 117 個の Swift Testing テストを macOS と iPhone シミュレータで実行しており、以下の README のサンプルも含まれます。
 - **サンプルアプリ** — [SystemDesignLab](Examples/SystemDesignLab) は、不安定にしたり、停止させたり、接続を切ったりできるシミュレートされたサーバーに対して、各構成要素を動かします。
 
 ### 含まれるもの

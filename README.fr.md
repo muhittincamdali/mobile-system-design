@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@cb1bed719d3d683e6e86c775015a12ee159071a5 status=reviewed -->
+<!-- i18n-source: README.md@d03b4b12f1062ccc5bd8c9eece9ab260ab980056 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg" alt="Mobile System Design: A mobile system design guide with tested Swift building blocks: caching, retries, pagination, offline sync."></picture></p>
@@ -33,7 +33,7 @@ Un guide pour concevoir le côté client des applications mobiles (fils d’actu
 - **Des briques de base que vous pouvez exécuter** : LRU cache, nouvelles tentatives avec backoff et `Retry-After`, circuit breaker, token bucket, paginator à base de cursor, outbox persistant, hybrid logical clock et last-writer-wins register, estimations de capacité.
 - **Conçu pour les entrées invalides** : les valeurs issues de la configuration distante, des en-têtes du serveur et des fichiers stockés sont bornées ou rejetées. Aucun plantage sur NaN, un dépassement ou un en-tête mal formé, aucune boucle infinie avec un serveur qui répète son cursor, et chaque file et chaque cache a une limite de taille.
 - **Mode de langage Swift 6** : des actors pour l’état partagé, des types `Sendable`, aucun avertissement.
-- **Testé** : 111 tests Swift Testing, exécutés sur macOS et sur un simulateur d’iPhone, y compris les exemples du README ci-dessous.
+- **Testé** : 117 tests Swift Testing, exécutés sur macOS et sur un simulateur d’iPhone, y compris les exemples du README ci-dessous.
 - **Une application d’exemple** : [SystemDesignLab](Examples/SystemDesignLab) exécute chaque brique de base face à un serveur simulé que vous pouvez rendre instable, éteindre ou déconnecter.
 
 ### Contenu

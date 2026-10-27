@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@cb1bed719d3d683e6e86c775015a12ee159071a5 status=reviewed -->
+<!-- i18n-source: README.md@d03b4b12f1062ccc5bd8c9eece9ab260ab980056 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg" alt="Mobile System Design: A mobile system design guide with tested Swift building blocks: caching, retries, pagination, offline sync."></picture></p>
@@ -33,7 +33,7 @@
 - **可以运行的基础组件**：LRU cache、带 backoff 和 `Retry-After` 的重试、circuit breaker、token bucket、基于 cursor 的 paginator、持久化 outbox、hybrid logical clock 与 last-writer-wins register，以及容量估算。
 - **为错误输入而设计**：来自远程配置、服务器响应头和已存储文件的值都会被限制范围或直接拒绝。遇到 NaN、溢出或格式错误的响应头不会崩溃，服务器反复返回同一个 cursor 也不会陷入死循环，所有队列和缓存都有大小上限。
 - **Swift 6 语言模式**：用 actor 保护共享状态，使用 `Sendable` 类型，没有警告。
-- **经过测试**：111 个 Swift Testing 测试，在 macOS 和 iPhone 模拟器上运行，其中包括下面的 README 示例。
+- **经过测试**：117 个 Swift Testing 测试，在 macOS 和 iPhone 模拟器上运行，其中包括下面的 README 示例。
 - **示例应用**：[SystemDesignLab](Examples/SystemDesignLab) 针对一个模拟服务器运行每个基础组件，你可以让这个服务器变得不稳定、宕机或断开连接。
 
 ### 包含的内容

@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@cb1bed719d3d683e6e86c775015a12ee159071a5 status=reviewed -->
+<!-- i18n-source: README.md@d03b4b12f1062ccc5bd8c9eece9ab260ab980056 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg" alt="Mobile System Design: A mobile system design guide with tested Swift building blocks: caching, retries, pagination, offline sync."></picture></p>
@@ -33,7 +33,7 @@ Ein Leitfaden für den Entwurf der Client-Seite mobiler Apps (Feeds, Chat, Live-
 - **Bausteine, die du ausführen kannst**: LRU-Cache, Retry mit Backoff und `Retry-After`, Circuit Breaker, Token Bucket, Cursor-Paginator, persistente Outbox, Hybrid Logical Clock und Last-Writer-Wins-Register sowie Kapazitätsschätzungen.
 - **Für fehlerhafte Eingaben gebaut**: Werte aus der Remote-Konfiguration, aus Server-Headern und aus gespeicherten Dateien werden begrenzt oder abgelehnt. Es gibt keinen Absturz bei NaN, Überlauf oder einem fehlerhaften Header, keine Endlosschleife bei einem Server, der seinen Cursor wiederholt, und jede Queue und jeder Cache hat ein Größenlimit.
 - **Swift-6-Sprachmodus**: Actors für gemeinsamen Zustand, `Sendable`-Typen, keine Warnungen.
-- **Getestet**: 111 Swift-Testing-Tests, ausgeführt unter macOS und in einem iPhone-Simulator, einschließlich der README-Beispiele weiter unten.
+- **Getestet**: 117 Swift-Testing-Tests, ausgeführt unter macOS und in einem iPhone-Simulator, einschließlich der README-Beispiele weiter unten.
 - **Eine Beispiel-App**: [SystemDesignLab](Examples/SystemDesignLab) führt jeden Baustein gegen einen simulierten Server aus, den du instabil machen, abschalten oder trennen kannst.
 
 ### Was enthalten ist

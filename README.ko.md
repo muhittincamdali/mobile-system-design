@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@cb1bed719d3d683e6e86c775015a12ee159071a5 status=reviewed -->
+<!-- i18n-source: README.md@d03b4b12f1062ccc5bd8c9eece9ab260ab980056 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg" alt="Mobile System Design: A mobile system design guide with tested Swift building blocks: caching, retries, pagination, offline sync."></picture></p>
@@ -33,7 +33,7 @@
 - **직접 실행해 볼 수 있는 구성 요소** — LRU cache, backoff와 `Retry-After`를 지원하는 재시도, circuit breaker, token bucket, cursor 기반 paginator, 영구 outbox, hybrid logical clock과 last-writer-wins register, 용량 추정.
 - **잘못된 입력을 전제로 설계** — 원격 구성, 서버 헤더, 저장된 파일에서 온 값은 범위를 제한하거나 거부합니다. NaN, 오버플로, 형식이 잘못된 헤더 때문에 비정상 종료되지 않으며, cursor를 반복해서 돌려주는 서버에서도 무한 루프에 빠지지 않고, 모든 큐와 캐시에는 크기 제한이 있습니다.
 - **Swift 6 언어 모드** — 공유 상태는 actor로 보호하고, `Sendable` 타입을 사용하며, 경고가 없습니다.
-- **테스트 완료** — macOS와 iPhone 시뮬레이터에서 실행하는 Swift Testing 테스트 111개이며, 아래 README 샘플도 포함됩니다.
+- **테스트 완료** — macOS와 iPhone 시뮬레이터에서 실행하는 Swift Testing 테스트 117개이며, 아래 README 샘플도 포함됩니다.
 - **예제 앱** — [SystemDesignLab](Examples/SystemDesignLab)은 불안정하게 만들거나, 중단시키거나, 연결을 끊을 수 있는 시뮬레이션 서버를 대상으로 각 구성 요소를 실행합니다.
 
 ### 포함된 내용

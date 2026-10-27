@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@cb1bed719d3d683e6e86c775015a12ee159071a5 status=reviewed -->
+<!-- i18n-source: README.md@d03b4b12f1062ccc5bd8c9eece9ab260ab980056 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg" alt="Mobile System Design: A mobile system design guide with tested Swift building blocks: caching, retries, pagination, offline sync."></picture></p>
@@ -33,7 +33,7 @@ Um guia para projetar o lado cliente de apps móveis (feeds, chat, rastreamento 
 - **Blocos de construção que você pode executar**: LRU cache, retry com backoff e `Retry-After`, circuit breaker, token bucket, paginator baseado em cursor, outbox persistente, hybrid logical clock e last-writer-wins register, estimativas de capacidade.
 - **Feito para entradas inválidas**: valores vindos da configuração remota, de cabeçalhos do servidor e de arquivos armazenados são limitados ou rejeitados. Não há travamento com NaN, overflow ou um cabeçalho malformado, nem loop infinito com um servidor que repete o cursor, e toda fila e todo cache tem um limite de tamanho.
 - **Modo de linguagem Swift 6**: actors para o estado compartilhado, tipos `Sendable`, sem avisos.
-- **Testado**: 111 testes com Swift Testing, executados no macOS e em um simulador de iPhone, incluindo os exemplos do README abaixo.
+- **Testado**: 117 testes com Swift Testing, executados no macOS e em um simulador de iPhone, incluindo os exemplos do README abaixo.
 - **Um app de exemplo**: o [SystemDesignLab](Examples/SystemDesignLab) executa cada bloco de construção contra um servidor simulado que você pode deixar instável, derrubar ou desconectar.
 
 ### O que está incluído

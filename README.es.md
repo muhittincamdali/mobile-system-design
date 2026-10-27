@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@cb1bed719d3d683e6e86c775015a12ee159071a5 status=reviewed -->
+<!-- i18n-source: README.md@d03b4b12f1062ccc5bd8c9eece9ab260ab980056 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg" alt="Mobile System Design: A mobile system design guide with tested Swift building blocks: caching, retries, pagination, offline sync."></picture></p>
@@ -33,7 +33,7 @@ Una guía para diseñar el lado cliente de las apps móviles (feeds, chat, segui
 - **Componentes básicos que puedes ejecutar**: LRU cache, reintentos con backoff y `Retry-After`, circuit breaker, token bucket, paginator basado en cursor, outbox persistente, hybrid logical clock y last-writer-wins register, y estimaciones de capacidad.
 - **Pensado para entradas incorrectas**: los valores que vienen de la configuración remota, de las cabeceras del servidor y de archivos guardados se limitan o se rechazan. No hay cierres inesperados por NaN, desbordamiento o una cabecera mal formada, ni bucles infinitos con un servidor que repite su cursor, y toda cola y toda caché tiene un límite de tamaño.
 - **Modo de lenguaje Swift 6**: actors para el estado compartido, tipos `Sendable` y cero advertencias.
-- **Con pruebas**: 111 pruebas de Swift Testing, ejecutadas en macOS y en un simulador de iPhone, que incluyen los ejemplos del README de más abajo.
+- **Con pruebas**: 117 pruebas de Swift Testing, ejecutadas en macOS y en un simulador de iPhone, que incluyen los ejemplos del README de más abajo.
 - **Una app de ejemplo**: [SystemDesignLab](Examples/SystemDesignLab) ejecuta cada componente básico contra un servidor simulado al que puedes hacer inestable, tumbar o desconectar.
 
 ### Qué incluye

@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@cb1bed719d3d683e6e86c775015a12ee159071a5 status=reviewed -->
+<!-- i18n-source: README.md@d03b4b12f1062ccc5bd8c9eece9ab260ab980056 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/mobile-system-design/main/.github/brand/banner-light.svg" alt="Mobile System Design: A mobile system design guide with tested Swift building blocks: caching, retries, pagination, offline sync."></picture></p>
@@ -45,7 +45,7 @@ projenizde kullanabilirsiniz.
   yüzünden çökme yok, cursor'ını tekrarlayan bir sunucuda sonsuz döngü yok, her kuyruğun ve
   cache'in bir boyut sınırı var.
 - **Swift 6 dil modu** — paylaşılan durum için actor'lar, `Sendable` tipler, uyarı yok.
-- **Testli** — macOS'ta ve bir iPhone simülatöründe çalışan 111 Swift Testing testi; aşağıdaki
+- **Testli** — macOS'ta ve bir iPhone simülatöründe çalışan 117 Swift Testing testi; aşağıdaki
   README örnekleri de bunların arasında.
 - **Bir örnek uygulama** — [SystemDesignLab](Examples/SystemDesignLab), her yapı taşını
   kararsız hâle getirebileceğiniz, kapatabileceğiniz ya da bağlantısını kesebileceğiniz

@@ -29,12 +29,13 @@ only; its pages were replaced, so this is a major version.
     - `Outbox`, `FileOutboxStore` and `InMemoryOutboxStore`: a persistent, ordered queue of
       offline changes with idempotency keys, coalescing, backoff, dead letters and size limits.
     - `HybridLogicalClock`, `HybridTimestamp` and `LWWRegister`: conflict resolution that does
-      not depend on device clocks, with drift rejection.
+      not depend on device clocks, with drift rejection; `merge(_:using:physicalTime:)` checks a
+      remote copy's timestamp with the clock before it can win.
     - `CapacityEstimate` and `ClientBudget`: request rates, bandwidth, storage and decoded image
       sizes.
 - Inputs from remote configuration, HTTP headers, files and other devices are clamped or
   rejected: no trap on NaN, infinity, integer overflow or malformed text.
-- 111 Swift Testing tests, run on macOS and an iPhone simulator, including the README samples.
+- 117 Swift Testing tests, run on macOS and an iPhone simulator, including the README samples.
 - DocC documentation with four articles: getting started, a resilient network layer, an
   offline-first feed, and capacity estimates.
 - `Examples/SystemDesignLab`, an iOS and macOS app with one lab per building block and a
