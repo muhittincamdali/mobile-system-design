@@ -44,6 +44,7 @@ public struct Retrier: Sendable {
     /// The operation and the classifier run on the caller's actor.
     ///
     /// - Parameters:
+    ///   - isolation: The actor to run the operation on; the caller's by default.
     ///   - classify: Decides whether an error is worth another attempt.
     ///   - operation: The work to run. It receives the attempt number, starting at 1.
     /// - Returns: The operation's result.

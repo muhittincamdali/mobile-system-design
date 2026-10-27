@@ -155,6 +155,10 @@ public actor CircuitBreaker {
 
     /// Runs `operation` through the breaker.
     ///
+    /// - Parameters:
+    ///   - isolation: The actor to run the operation on; the caller's by default.
+    ///   - operation: The call to make.
+    ///
     /// - Throws: ``CircuitBreakerError/open(retryAfter:)`` without running the operation while
     ///   the breaker is open, otherwise the operation's own error.
     public func run<T>(

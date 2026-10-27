@@ -43,8 +43,10 @@ public struct TokenBucket: Sendable, Hashable {
 
     /// Takes `count` tokens if the bucket has them.
     ///
-    /// - Parameter count: The tokens to take; must be a positive, finite number. Any other
-    ///   value is refused.
+    /// - Parameters:
+    ///   - count: The tokens to take; must be a positive, finite number. Any other value is
+    ///     refused.
+    ///   - now: The current time, used to add the tokens refilled since the last call.
     /// - Returns: `true` when the tokens were taken.
     public mutating func tryConsume(_ count: Double = 1, at now: ContinuousClock.Instant = .now) -> Bool {
         guard count.isFinite, count > 0 else { return false }
