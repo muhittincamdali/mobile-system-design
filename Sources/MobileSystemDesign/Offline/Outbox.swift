@@ -75,7 +75,8 @@ public struct OutboxFlushReport: Sendable, Hashable {
 public actor Outbox<Payload: Codable & Sendable> {
     /// Entries waiting to be sent, oldest first.
     public private(set) var pending: [OutboxEntry<Payload>]
-    /// Entries the server rejected or that ran out of attempts, oldest first.
+    /// Entries the server rejected, that ran out of attempts, or that did not fit in
+    /// ``capacity`` when the outbox was loaded, oldest first.
     public private(set) var deadLetters: [OutboxEntry<Payload>]
 
     /// The most pending entries the outbox accepts.
@@ -97,6 +98,11 @@ public actor Outbox<Payload: Codable & Sendable> {
     }
 
     /// Creates an outbox and loads the entries saved in `store`.
+    ///
+    /// When the store holds more pending entries than `capacity`, for example after an update
+    /// lowered it, the oldest `capacity` entries stay pending and the rest move to the end of the
+    /// dead letters, where the app can retry or discard them; the store is updated on the next
+    /// change.
     ///
     /// - Parameters:
     ///   - store: Where entries are saved.
@@ -121,8 +127,9 @@ public actor Outbox<Payload: Codable & Sendable> {
         self.retryPolicy = retryPolicy
         self.classify = classify
         self.random = random
-        self.pending = snapshot.pending
-        self.deadLetters = Array(snapshot.deadLetters.suffix(max(0, deadLetterLimit)))
+        self.pending = Array(snapshot.pending.prefix(self.capacity))
+        let overflow = snapshot.pending.dropFirst(self.capacity)
+        self.deadLetters = Array((snapshot.deadLetters + overflow).suffix(self.deadLetterLimit))
     }
 
     /// Adds a change to the end of the queue and saves it.

@@ -166,6 +166,21 @@ struct OutboxTests {
         #expect(await outbox.pending.map(\.payload.postID) == [2, 1])
     }
 
+    @Test("loading more entries than the capacity keeps the oldest pending and moves the rest to the dead letters")
+    func loadAboveCapacity() async throws {
+        let store = InMemoryOutboxStore<LikeChange>()
+        let saved = (1...5).map { OutboxEntry(payload: LikeChange(postID: $0, liked: true), coalescingKey: nil, createdAt: now) }
+        let rejected = OutboxEntry(payload: LikeChange(postID: 0, liked: true), coalescingKey: nil, createdAt: now)
+        try store.save(OutboxSnapshot(pending: saved, deadLetters: [rejected]))
+
+        let outbox = try makeOutbox(store: store, capacity: 2, deadLetterLimit: 3)
+        #expect(await outbox.pending.map(\.payload.postID) == [1, 2])
+        #expect(await outbox.deadLetters.map(\.payload.postID) == [3, 4, 5])
+        await #expect(throws: OutboxError.full(capacity: 2)) {
+            try await outbox.enqueue(LikeChange(postID: 6, liked: true), now: now)
+        }
+    }
+
     @Test("the dead letters keep only the newest entries")
     func deadLetterLimit() async throws {
         let outbox = try makeOutbox(deadLetterLimit: 2)
